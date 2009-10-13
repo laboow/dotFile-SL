@@ -18,6 +18,9 @@
 (setq load-path (cons "~/emacs/site-lisp" load-path))
 (setq load-path (cons "~/.emacs.d/mylisp" load-path))
 
+;; 外部コマンドから emacsclient で起動済みのEmacsにファイルを開かせる
+;; (sever-start)
+
 ;; C-h をバックスペースに変更
 (global-set-key "\C-h" 'delete-backward-char)
 
@@ -146,6 +149,8 @@
   (setq elscreen-tab-display-kill-screen nil)
   ;; C-q に割り当て
   (elscreen-set-prefix-key "\C-q")
+  ;; emacsclient から新しいウィンドウで開く
+  (require 'elscreen-server)
   ;; タブの色
   (custom-set-variables)
 
@@ -565,7 +570,7 @@
 
 ;; javascript用 js2-mode 20080616a版
 ;; ----------------------------------------------------------------------
-;; http://8-p.info/emacs-javascript.html
+;; http://8-p.infoemacs-javascript.html
 (autoload 'js2-mode "js2" nil t)
 (setq-default c-basic-offset 4)
 (setq indent-tabs-mode nil)
@@ -696,9 +701,6 @@
 ;; minibuf-isearch
 ;;   minibufでisearchを使えるようにする
 (require 'minibuf-isearch nil t)
-
-;; 外部コマンドから emacsclient で起動済みのEmacsにファイルを開かせる
-(server-start)
 
 ;; growl messages at file saved
 (defun growlnotify-after-save-hook ()

@@ -1,0 +1,82 @@
+" vimperator 2.0
+"  2009.06.24
+
+set guioptions+=mTB
+set showtabline=1
+set wildoptions=auto
+set complete=sl
+set visualbell
+hi Bell display:none
+
+
+" ステータスラインの色設定
+hi StatusLine term=NONE cterm=NONE ctermfg=black ctermbg=white
+
+
+" ツールバーの表示切替え
+map <C-0> :set go=<CR>
+map <C-1> :set go=T<CR>
+map <C-2> :set go=B<CR>
+map <C-3> :set go=TB<CR>
+
+
+" ime の状態を切替え
+" ime_controller.js
+"   source: http://retlet.net/log/2008/04/ime-controllerjs.html
+let g:ex_ime_mode = "inactive"
+let g:textarea_ime_mode = "inactive"
+
+
+" migemo_hint.js
+set hintmatching=custom
+
+
+" ちょっと多めのスクロール
+noremap J 5<C-e>
+noremap K 5<C-y>
+
+
+" h/l でタブ移動
+map h <C-p>
+map l <C-n>
+
+
+" クイックリンクから開くページを新しいタブで
+noremap f F
+noremap F f
+
+
+" フォームへのフォーカスを外しておく
+set focuscontent
+
+
+" emacs like key-map
+imap <C-f> <Right>
+imap <C-b> <Left>
+imap <C-d> <Del>
+imap <C-h> <BS>
+
+
+" _smooziee.js
+let g:smooziee_scroll_amount="200"
+
+
+" ldrize_cooperation.js
+let g:ldrc_captureMappings = "['j', 'k', 'p', 'o', '?']"
+let g:ldrc_intlligence_bind = "true"
+let g:ldrc_skip = "0.25"
+" source: http://coderepos.org/share/browser/dotfiles/vimperator/ukstudio-vimperatorrc?rev=8086
+map ,l :toggleldrc<CR>
+
+" migemo_hint.js
+" source: http://unsigned.g.hatena.ne.jp/Trapezoid/20080616/1213624179
+set hintmatching=custom
+
+" 自動で Vimperator のキーマップを無効にする
+" Gmail用
+autocmd LocationChange mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
+
+
+" googlesuggest.js
+map s :google<space>
+

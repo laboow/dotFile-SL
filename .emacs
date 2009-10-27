@@ -306,9 +306,9 @@
 (setq-default indent-tabs-mode nil)
 
 ;; C-cc で範囲指定をコメントアウトする
-(global-set-key "\C-cc" 'comment-region)
+(global-set-key "\C-c:" 'comment-region)
 ;; C-cu で範囲指定のコメントアウトを解除する
-(global-set-key "\C-cu" 'uncomment-region)
+(global-set-key "\C-c;" 'uncomment-region)
 
 ;; 補完機能を使う
 (setq partial-completion-mode 1)
@@ -902,6 +902,26 @@
 (autoload 'turn-on-folding-mode "folding" "Folding mode" t)
   ;; @ ~ とかがめんどいので
   (setq folding-mode-prefix-key "\C-c")
+
+
+;; mozrepl
+;; ----------------------------------------------------------------------
+;; http://wiki.github.com/bard/mozrepl/emacs-integration
+(autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
+
+(add-hook 'javascript-mode-hook 'javascript-custom-setup)
+(defun javascript-custom-setup ()
+  (moz-minor-mode 1))
+
+(add-hook 'espresso-mode-hook 'espresso-custom-setup)
+(defun espresso-custom-setup ()
+  (moz-minor-mode 1))
+    ;; C-c C-s :open a MozRepl interaction buffer and switch to it
+    ;; C-c C-l :save the current buffer and load it in MozRepl
+    ;; C-M-x   :send the current function (as recognized by 'c-mark-function') to MozRepl
+    ;; C-c C-c :send the current function to MozRepl and switch to the interaction buffer
+    ;; C-c C-r :send the current region to MozRepl
+    ;; C-c c   :insert the current name of the REPL plus the dot operator (usually 'repl.')
 
 
 ;; Firefox の自動リロード化

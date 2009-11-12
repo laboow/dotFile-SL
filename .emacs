@@ -387,62 +387,6 @@
 ;; モード設定
 ;; ======================================================================
 
-;; ;; viper-mode
-;; ;; ----------------------------------------------------------------------
-;; ;; source: http://www29.atwiki.jp/sicpstudygroup/pages/45.html
-;; ;; source: http://evrythingonmac.blogspot.com/2009/01/viper-mode.html
-;; (setq viper-mode t)
-;; (setq viper-inhibit-startup-message 't)
-;; (setq viper-expert-level '3)
-;; (require 'viper)
-;; ;; (define-key viper-insert-global-user-map "\C-c" 'viper-exit-insert-state)
-
-;; (defun my-viper-beginning-of-buffer()
-;;   (interactive)
-;;   (beginning-of-buffer))
-;; (define-key viper-vi-global-user-map [?g?g] 'my-viper-beginning-of-buffer)
-;; (defun my-viper-star ()
-;;   (interactive)
-;;   (let ((wd (concat "\\<" (thing-at-point 'symbol) "\\>")))
-;;     (setq viper-s-string wd)
-;;     (setq viper-s-forward t)
-;;     (viper-search wd t 1)))
-;; (define-key viper-vi-global-user-map [?*]  'my-viper-star)
-;; (defun my-viper-jump-tag ()
-;;   (interactive)
-;;   (setq wd (thing-at-point 'symbol))
-;;   (find-tag wd))
-;; (define-key viper-vi-global-user-map [?\C-\]] 'my-viper-jump-tag)
-;; (defun my-viper-jump-tag-next ()
-;;   (interactive)
-;;   (setq wd (thing-at-point 'symbol))
-;;   (find-tag wd 0))
-;; (define-key viper-vi-global-user-map [?\C-:] 'my-viper-jump-tag-next)
-;; (defun my-viper-pop-tag ()
-;;   (interactive)
-;;   (pop-tag-mark))
-;; (define-key viper-vi-global-user-map [?\C-t] 'my-viper-pop-tag)
-;; (defun my-viper-pop-mark ()
-;;   (interactive)
-;;   (set-mark-command -1))
-;; (define-key viper-vi-global-user-map [?\C-o] 'my-viper-pop-mark)
-;; (define-key viper-vi-global-user-map [?u] 'undo)
-;; (define-key viper-insert-global-user-map [backspace] 'backward-delete-char-untabify)
-;; (define-key viper-insert-global-user-map [delete] 'delete-char)
-;; (define-key viper-emacs-global-user-map "\C-w\C-w" 'other-window)
-;; (define-key viper-vi-global-user-map "\C-w\C-w" 'other-window)
-;; (define-key viper-emacs-global-user-map "\C-w\C-o" 'delete-other-windows)
-;; (define-key viper-vi-global-user-map "\C-w\C-o" 'delete-other-windows)
-;; (define-key viper-dired-modifier-map "j" 'dired-next-line)
-;; (define-key viper-dired-modifier-map "k" 'dired-previous-line)
-;; (define-key viper-dired-modifier-map "/" 'dired-goto-file)
-;; (define-key viper-dired-modifier-map "l" '(lambda () (interactive) (dired-next-line 10)))
-;; (define-key viper-dired-modifier-map "h" '(lambda () (interactive) (dired-previous-line 10)))
-
-;; (define-key viper-insert-global-user-map "\C-h" 'backward-delete-char-untabify)
-;; (define-key viper-insert-global-user-map "\C-d" 'delete-char)
-
-
 ;; html-mode
 ;; ----------------------------------------------------------------------
 (add-hook 'html-mode-hook
@@ -982,5 +926,5 @@
 
 
 ;; ----------------------------------------------------------------------
-;;                          最終更新 '09.10.27
+;;                          最終更新 '09.11.13
 ;; ----------------------------------------------------------------------

@@ -764,13 +764,21 @@
 ;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
 (require 'auto-complete)
 (global-auto-complete-mode t)
-
+(define-key ac-complete-mode-map "\C-n" 'ac-next)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous)
 
 ;; auto-complete.el 用の動的略語展開を利用する
 ;; http://blog.livedoor.jp/k1LoW/archives/65147035.html
 (require 'ac-dabbrev)
 (setq ac-sources
       (list ac-source-dabbrev))
+
+
+;; pulldown.el の設定
+;; ----------------------------------------------------------------------
+;; http://d.hatena.ne.jp/m2ym/20091105/1257387008
+(require 'pulldown)
+;; (pulldown-menu '(foo bar hoge))
 
 
 ;; anything.el の設定

@@ -18,9 +18,6 @@
 (setq load-path (cons "~/emacs/site-lisp" load-path))
 (setq load-path (cons "~/.emacs.d/mylisp" load-path))
 
-;; 外部コマンドから emacsclient で起動済みのEmacsにファイルを開かせる
-(server-start)
-
 ;; C-h をバックスペースに変更
 (global-set-key "\C-h" 'delete-backward-char)
 
@@ -217,6 +214,9 @@
 
 ;; 1行ずつスクロール
 (setq scroll-step 1)
+
+;; マウスホイール
+(mouse-wheel-mode 1)
 
 ;; マウスでのスクロール加速を無効にする
 (setq mouse-wheel-progressive-speed nil)
@@ -923,6 +923,11 @@
   (setq moz-repl-host (read-string "Host: " "localhost"))
   (pop-to-buffer (process-buffer (inferior-moz-process)))
   (goto-char (process-mark (inferior-moz-process))))
+
+
+;; 外部コマンドから emacsclient で起動済みのEmacsにファイルを開かせる
+;; ----------------------------------------------------------------------
+(server-start)
 
 
 ;; ----------------------------------------------------------------------

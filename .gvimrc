@@ -13,7 +13,7 @@ set transparency=10
 set guioptions-=T
 
 "------------------------------------------------------------------------------
-" フォント 
+" フォント
 "
 set guifont=Monaco:h12
 set guifontwide=Monaco:h12

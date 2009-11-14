@@ -14,7 +14,6 @@
 ;; 初期設定
 ;; ======================================================================
 
-(server-start)
 
 ;; ロードパス
 (setq load-path (cons "~/emacs/site-lisp" load-path))
@@ -70,7 +69,7 @@
 
 ;; カラー設定
 (if window-system (progn
-                    ;; (setq initial-frame-alist '((width . 110)(height . 60)(top . 30)(left . 10)))
+;;                  (setq initial-frame-alist '((width . 110)(height . 60)(top . 30)(left . 10)))
                     (set-background-color "Black")
                     (set-foreground-color "White")
                     (set-cursor-color "Gray")
@@ -200,19 +199,19 @@
 ;; エディター設定
 ;; ======================================================================
 
-;; utf-8
-;; http://blogs.da-cha.jp/momokuri.php/2005/09/05/utf_8_localea_la_a_a_ia_a
-(if (equal (getenv "LANG") "ja_JP.UTF-8")
-    (progn (set-language-environment "Japanese")
-           (set-default-coding-systems 'utf-8-unix)
-           (set-keyboard-coding-system 'utf-8-unix)
-           (if (not window-system) (set-terminal-coding-system 'utf-8-unix)))
+;; ;; utf-8
+;; ;; http://blogs.da-cha.jp/momokuri.php/2005/09/05/utf_8_localea_la_a_a_ia_a
+;; (if (equal (getenv "LANG") "ja_JP.UTF-8")
+;;     (progn (set-language-environment "Japanese")
+;;            (set-default-coding-systems 'utf-8-unix)
+;;            (set-keyboard-coding-system 'utf-8-unix)
+;;            (if (not window-system) (set-terminal-coding-system 'utf-8-unix)))
 
-  (progn (set-language-environment "Japanese")
-         (set-default-coding-systems 'euc-japan-unix)
-         (set-keyboard-coding-system 'euc-japan-unix)
-         (if (not window-system) (set-terminal-coding-system 'euc-japan-unix)))
-  )
+;;   (progn (set-language-environment "Japanese")
+;;          (set-default-coding-systems 'euc-japan-unix)
+;;          (set-keyboard-coding-system 'euc-japan-unix)
+;;          (if (not window-system) (set-terminal-coding-system 'euc-japan-unix)))
+;;   )
 
 ;; 1行ずつスクロール
 (setq scroll-step 1)
@@ -754,6 +753,9 @@
 ;;   minibufでisearchを使えるようにする
 (require 'minibuf-isearch nil t)
 
+;; 外部コマンドから emacsclient で起動済みのEmacsにファイルを開かせる
+(server-start)
+
 ;; growl messages at file saved
 (defun growlnotify-after-save-hook ()
   (shell-command
@@ -891,7 +893,7 @@
                                 ("\\.js$" . espresso-mode)
                                 ("\\.jsx$" . espresso-mode)
                                 ) auto-mode-alist))
-;; (add-to-list 'auto-mode-alist '("\\.js\\'" .espresso-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" .espresso-mode))
 (autoload 'espresso-mode "espresso" nil t)
 
 (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
@@ -934,10 +936,6 @@
   (pop-to-buffer (process-buffer (inferior-moz-process)))
   (goto-char (process-mark (inferior-moz-process))))
 
-
-;; 外部コマンドから emacsclient で起動済みのEmacsにファイルを開かせる
-;; ----------------------------------------------------------------------
-(server-start)
 
 
 ;; ----------------------------------------------------------------------

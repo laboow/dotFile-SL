@@ -10,7 +10,7 @@ hi Bell display:none
 
 
 " 起動するとき、ホームページを表示する
-set browser.startup.page = 1
+" set browser.startup.page = 1
 
 
 " ステータスラインの色設定

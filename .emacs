@@ -14,6 +14,8 @@
 ;; 初期設定
 ;; ======================================================================
 
+(server-start)
+
 ;; ロードパス
 (setq load-path (cons "~/emacs/site-lisp" load-path))
 (setq load-path (cons "~/.emacs.d/mylisp" load-path))

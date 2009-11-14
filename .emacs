@@ -399,14 +399,14 @@
 ;; ----------------------------------------------------------------------
 ;; http://sickhack.homelinux.org/linux/emacs/psgml/
 ;; http://d.hatena.ne.jp/gan2/20080207/1202368037
-(setq load-path (cons (expand-file-name "~/site-lisp/psgml") load-path))
+;; (setq load-path (cons (expand-file-name "~/site-lisp/psgml") load-path))
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 (add-to-list 'auto-mode-alist '("\\.\\(htm\\|html\\|shtm\\|shtml\\|xml\\|xhtml\\)\\'" . xml-mode))
 
 ;;; カタログファイルの指定
-(setq sgml-catalog-files '("CATALOG" "/Applications/Emacs.app/Contents/Resources/site-lisp/dtd/catalog"))
-(setq sgml-ecat-files '("ECAT" "/Applications/Emacs.app/Contents/Resources/site-lisp/dtd/ecat"))
+(setq sgml-catalog-files '("CATALOG" "~/.emacs.d/mylisp/dtd/catalog"))
+(setq sgml-ecat-files '("ECAT" "~/.emacs.d/mylisp/dtd/ecat"))
 
 ;;; DOCTYPE 宣言の設定
 (setq sgml-custom-dtd
@@ -939,5 +939,5 @@
 
 
 ;; ----------------------------------------------------------------------
-;;                          最終更新 '09.11.13
+;;                          最終更新 '09.11.15
 ;; ----------------------------------------------------------------------

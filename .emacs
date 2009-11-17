@@ -548,7 +548,7 @@
 
     ; fixing indentation
     ; refer to http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
-(autoload 'espresso-mode "espresso")
+(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
 
 (defun my-js2-indent-function ()
   (interactive)
@@ -576,10 +576,10 @@
         (when (and node
                    (= js2-NAME (js2-node-type node))
                    (= js2-VAR (js2-node-type (js2-node-parent node))))
-          (setq indentation (+ 4 indentation)))))
+          (setq indentation (+ 4 indentation))))
 
     (indent-line-to indentation)
-    (when (> offset 0) (forward-char offset))))
+    (when (> offset 0) (forward-char offset)))))
 
 (defun my-indent-sexp ()
   (interactive)

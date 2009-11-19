@@ -607,6 +607,42 @@
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
 
+;; espresso-mode
+;; ----------------------------------------------------------------------
+;; http://d.hatena.ne.jp/CortYuming/20091023/p2
+
+;; http://www.nongnu.org/espresso/
+;; http://wiki.github.com/bard/mozrepl
+;; http://wiki.github.com/bard/mozrepl/emacs-integration
+;;
+;; Firefox -> install MozRepl
+;;         -> Tools -> MozRepl -> Start
+;;
+;; Restart Emacs, and every time you open a Javascript file, you will now
+;; have the following keybindings available:
+;; C-c C-s: open a MozRepl interaction buffer and switch to it
+;; C-c C-l: save the current buffer and load it in MozRepl
+;; C-M-x: send the current function (as recognized by c-mark-function) to MozRepl
+;; C-c C-c: send the current function to MozRepl and switch to the interaction buffer
+;; C-c C-r: send the current region to MozRepl
+;;
+;; In the interaction buffer:
+;; C-c c: insert the current name of the REPL plus the dot operator (usually repl.)
+(setq auto-mode-alist (append '(
+                                ("\\.js$" . espresso-mode)
+                                ("\\.jsx$" . espresso-mode)
+                                ) auto-mode-alist))
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . espresso-mode))
+(autoload 'espresso-mode "espresso" nil t)
+
+(autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
+
+(add-hook 'espresso-mode-hook 'espresso-custom-setup)
+(defun espresso-custom-setup ()
+  (moz-minor-mode 1))
+
+
+
 ;; c-mode 用
 ;; ----------------------------------------------------------------------
 ;; http://viz.is-a-geek.com/~viz/cw/index.php?Emacs

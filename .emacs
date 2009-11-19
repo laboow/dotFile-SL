@@ -858,38 +858,38 @@
   (setq folding-mode-prefix-key "\C-c")
 
 
-;; Firefox の自動リロード化
-;; ----------------------------------------------------------------------
-;; http://emacs.g.hatena.ne.jp/k1LoW/20090430/1241104830
-(defvar moz-use-mozilla t)
-(defun moz-send-reload ()
-  (interactive)
-  (unless (not moz-use-mozilla)
-    (comint-send-string (inferior-moz-process)
-                        (concat moz-repl-name ".pushenv('printPrompt', 'inputMode'); "
-                                moz-repl-name ".setenv('inputMode', 'line'); "
-                                moz-repl-name ".setenv('printPrompt', false); undefined; "))
-    (comint-send-string (inferior-moz-process)
-                        (concat "content.location.reload(true);\n"
-                                moz-repl-name ".popenv('inputMode', 'printPrompt'); undefined;\n"))
-    ))
+;; ;; Firefox の自動リロード化
+;; ;; ----------------------------------------------------------------------
+;; ;; http://emacs.g.hatena.ne.jp/k1LoW/20090430/1241104830
+;; (defvar moz-use-mozilla t)
+;; (defun moz-send-reload ()
+;;   (interactive)
+;;   (unless (not moz-use-mozilla)
+;;     (comint-send-string (inferior-moz-process)
+;;                         (concat moz-repl-name ".pushenv('printPrompt', 'inputMode'); "
+;;                                 moz-repl-name ".setenv('inputMode', 'line'); "
+;;                                 moz-repl-name ".setenv('printPrompt', false); undefined; "))
+;;     (comint-send-string (inferior-moz-process)
+;;                         (concat "content.location.reload(true);\n"
+;;                                 moz-repl-name ".popenv('inputMode', 'printPrompt'); undefined;\n"))
+;;     ))
 
-(defun reload-moz ()
-  (unless (condition-case nil(run-mozilla)
-            (error nil))
-    (if (string-match "\.\\(css\\|js\\|php\\|html\\|xhtml\\|htm\\|tpl\\|thtml\\|ctp\\|po\\)$" (buffer-file-name))
-        (moz-send-reload))))
+;; (defun reload-moz ()
+;;   (unless (condition-case nil(run-mozilla)
+;;             (error nil))
+;;     (if (string-match "\.\\(css\\|js\\|php\\|html\\|xhtml\\|htm\\|tpl\\|thtml\\|ctp\\|po\\)$" (buffer-file-name))
+;;         (moz-send-reload))))
 
-(add-hook 'after-save-hook 'reload-moz)
+;; (add-hook 'after-save-hook 'reload-moz)
 
-(defun moz-switch-host ()
-  "Show the inferior mozilla buffer.  Start the process if needed."
-  (interactive)
-  (if inferior-moz-buffer
-      (kill-buffer inferior-moz-buffer))
-  (setq moz-repl-host (read-string "Host: " "localhost"))
-  (pop-to-buffer (process-buffer (inferior-moz-process)))
-  (goto-char (process-mark (inferior-moz-process))))
+;; (defun moz-switch-host ()
+;;   "Show the inferior mozilla buffer.  Start the process if needed."
+;;   (interactive)
+;;   (if inferior-moz-buffer
+;;       (kill-buffer inferior-moz-buffer))
+;;   (setq moz-repl-host (read-string "Host: " "localhost"))
+;;   (pop-to-buffer (process-buffer (inferior-moz-process)))
+;;   (goto-char (process-mark (inferior-moz-process))))
 
 
 

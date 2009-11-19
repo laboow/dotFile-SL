@@ -517,6 +517,94 @@
 
 ;; javascript用 js2-mode
 ;; ----------------------------------------------------------------------
+;; http://d.hatena.ne.jp/speg03/20091011/1255244329
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+; fixing indentation
+; refer to http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
+(autoload 'espresso-mode "espresso")
+
+(defun my-js2-indent-function ()
+  (interactive)
+  (save-restriction
+    (widen)
+    (let* ((inhibit-point-motion-hooks t)
+           (parse-status (save-excursion (syntax-ppss (point-at-bol))))
+           (offset (- (current-column) (current-indentation)))
+           (indentation (espresso--proper-indentation parse-status))
+           node)
+
+      (save-excursion
+
+        ;; I like to indent case and labels to half of the tab width
+        (back-to-indentation)
+        (if (looking-at "case\\s-")
+            (setq indentation (+ indentation (/ espresso-indent-level 2))))
+
+        ;; consecutive declarations in a var statement are nice if
+        ;; properly aligned, i.e:
+        ;;
+        ;; var foo = "bar",
+        ;;     bar = "foo";
+        (setq node (js2-node-at-point))
+        (when (and node
+                   (= js2-NAME (js2-node-type node))
+                   (= js2-VAR (js2-node-type (js2-node-parent node))))
+          (setq indentation (+ 4 indentation))))
+
+      (indent-line-to indentation)
+      (when (> offset 0) (forward-char offset)))))
+
+(defun my-indent-sexp ()
+  (interactive)
+  (save-restriction
+    (save-excursion
+      (widen)
+      (let* ((inhibit-point-motion-hooks t)
+             (parse-status (syntax-ppss (point)))
+             (beg (nth 1 parse-status))
+             (end-marker (make-marker))
+             (end (progn (goto-char beg) (forward-list) (point)))
+             (ovl (make-overlay beg end)))
+        (set-marker end-marker end)
+        (overlay-put ovl 'face 'highlight)
+        (goto-char beg)
+        (while (< (point) (marker-position end-marker))
+          ;; don't reindent blank lines so we don't set the "buffer
+          ;; modified" property for nothing
+          (beginning-of-line)
+          (unless (looking-at "\\s-*$")
+            (indent-according-to-mode))
+          (forward-line))
+        (run-with-timer 0.5 nil '(lambda(ovl)
+                                   (delete-overlay ovl)) ovl)))))
+
+(defun my-js2-mode-hook ()
+  (require 'espresso)
+  (setq espresso-indent-level 4
+        indent-tabs-mode nil
+        c-basic-offset 4)
+  (c-toggle-auto-state 0)
+  (c-toggle-hungry-state 1)
+  (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
+  ; (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
+  (define-key js2-mode-map "\C-\M-\\"
+    '(lambda()
+       (interactive)
+       (insert "/* -----[ ")
+       (save-excursion
+         (insert " ]----- */"))
+       ))
+  (define-key js2-mode-map "\C-m" 'newline-and-indent)
+  ; (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
+  ; (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
+  (define-key js2-mode-map "\C-\M-q" 'my-indent-sexp)
+  (if (featurep 'js2-highlight-vars)
+      (js2-highlight-vars-mode))
+  (message "My JS2 hook"))
+
+(add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
 
 ;; c-mode 用
@@ -732,49 +820,6 @@
 (autoload 'turn-on-folding-mode "folding" "Folding mode" t)
   ;; @ ~ とかがめんどいので
   (setq folding-mode-prefix-key "\C-c")
-
-
-;; ;; mozrepl
-;; ;; ----------------------------------------------------------------------
-;; ;; http://wiki.github.com/bard/mozrepl/emacs-integration
-;; (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
-
-;; (add-hook 'javascript-mode-hook 'javascript-custom-setup)
-;; (defun javascript-custom-setup ()
-;;   (moz-minor-mode 1))
-
-;; (add-hook 'espresso-mode-hook 'espresso-custom-setup)
-;; (defun espresso-custom-setup ()
-;;   (moz-minor-mode 1))
-;;     ;; C-c C-s :open a MozRepl interaction buffer and switch to it
-;;     ;; C-c C-l :save the current buffer and load it in MozRepl
-;;     ;; C-M-x   :send the current function (as recognized by 'c-mark-function') to MozRepl
-;;     ;; C-c C-c :send the current function to MozRepl and switch to the interaction buffer
-;;     ;; C-c C-r :send the current region to MozRepl
-;;     ;; C-c c   :insert the current name of the REPL plus the dot operator (usually 'repl.')
-
-
-;; espresso-mode
-;; ----------------------------------------------------------------------
-;; http://d.hatena.ne.jp/CortYuming/20091023/p2
-;;
-;; C-c C-s :open a MozRepl interaction buffer and switch to it
-;; C-c C-l :save the current buffer and load it in MozRepl
-;; C-M-x   :send the current function (as recognized by 'c-mark-function') to MozRepl
-;; C-c C-c :send the current function to MozRepl and switch to the interaction buffer
-;; C-c c   :insert the current name of the REPL plus the dot operator (usually 'repl.')
-(setq auto-mode-alist (append '(
-                                ("\\.js$" . espresso-mode)
-                                ("\\.jsx$" . espresso-mode)
-                                ) auto-mode-alist))
-(add-to-list 'auto-mode-alist '("\\.js\\'" .espresso-mode))
-(autoload 'espresso-mode "espresso" nil t)
-
-(autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
-
-(add-hook 'espresso-mode-hook 'espresso-custom-setup)
-(defun espresso-cutom-setup ()
-  (moz-minor-mode 1))
 
 
 ;; Firefox の自動リロード化

@@ -607,39 +607,39 @@
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
 
-;; espresso-mode
-;; ----------------------------------------------------------------------
-;; http://d.hatena.ne.jp/CortYuming/20091023/p2
+;; ;; espresso-mode
+;; ;; ----------------------------------------------------------------------
+;; ;; http://d.hatena.ne.jp/CortYuming/20091023/p2
 
-;; http://www.nongnu.org/espresso/
-;; http://wiki.github.com/bard/mozrepl
-;; http://wiki.github.com/bard/mozrepl/emacs-integration
-;;
-;; Firefox -> install MozRepl
-;;         -> Tools -> MozRepl -> Start
-;;
-;; Restart Emacs, and every time you open a Javascript file, you will now
-;; have the following keybindings available:
-;; C-c C-s: open a MozRepl interaction buffer and switch to it
-;; C-c C-l: save the current buffer and load it in MozRepl
-;; C-M-x: send the current function (as recognized by c-mark-function) to MozRepl
-;; C-c C-c: send the current function to MozRepl and switch to the interaction buffer
-;; C-c C-r: send the current region to MozRepl
-;;
-;; In the interaction buffer:
-;; C-c c: insert the current name of the REPL plus the dot operator (usually repl.)
-(setq auto-mode-alist (append '(
-                                ("\\.js$" . espresso-mode)
-                                ("\\.jsx$" . espresso-mode)
-                                ) auto-mode-alist))
-;; (add-to-list 'auto-mode-alist '("\\.js\\'" . espresso-mode))
-(autoload 'espresso-mode "espresso" nil t)
+;; ;; http://www.nongnu.org/espresso/
+;; ;; http://wiki.github.com/bard/mozrepl
+;; ;; http://wiki.github.com/bard/mozrepl/emacs-integration
+;; ;;
+;; ;; Firefox -> install MozRepl
+;; ;;         -> Tools -> MozRepl -> Start
+;; ;;
+;; ;; Restart Emacs, and every time you open a Javascript file, you will now
+;; ;; have the following keybindings available:
+;; ;; C-c C-s: open a MozRepl interaction buffer and switch to it
+;; ;; C-c C-l: save the current buffer and load it in MozRepl
+;; ;; C-M-x: send the current function (as recognized by c-mark-function) to MozRepl
+;; ;; C-c C-c: send the current function to MozRepl and switch to the interaction buffer
+;; ;; C-c C-r: send the current region to MozRepl
+;; ;;
+;; ;; In the interaction buffer:
+;; ;; C-c c: insert the current name of the REPL plus the dot operator (usually repl.)
+;; (setq auto-mode-alist (append '(
+;;                                 ("\\.js$" . espresso-mode)
+;;                                 ("\\.jsx$" . espresso-mode)
+;;                                 ) auto-mode-alist))
+;; ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . espresso-mode))
+;; (autoload 'espresso-mode "espresso" nil t)
 
-(autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
+;; (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
 
-(add-hook 'espresso-mode-hook 'espresso-custom-setup)
-(defun espresso-custom-setup ()
-  (moz-minor-mode 1))
+;; (add-hook 'espresso-mode-hook 'espresso-custom-setup)
+;; (defun espresso-custom-setup ()
+;;   (moz-minor-mode 1))
 
 
 
@@ -858,41 +858,41 @@
   (setq folding-mode-prefix-key "\C-c")
 
 
-;; ;; Firefox の自動リロード化
-;; ;; ----------------------------------------------------------------------
-;; ;; http://emacs.g.hatena.ne.jp/k1LoW/20090430/1241104830
-;; (defvar moz-use-mozilla t)
-;; (defun moz-send-reload ()
-;;   (interactive)
-;;   (unless (not moz-use-mozilla)
-;;     (comint-send-string (inferior-moz-process)
-;;                         (concat moz-repl-name ".pushenv('printPrompt', 'inputMode'); "
-;;                                 moz-repl-name ".setenv('inputMode', 'line'); "
-;;                                 moz-repl-name ".setenv('printPrompt', false); undefined; "))
-;;     (comint-send-string (inferior-moz-process)
-;;                         (concat "content.location.reload(true);\n"
-;;                                 moz-repl-name ".popenv('inputMode', 'printPrompt'); undefined;\n"))
-;;     ))
+;; Firefox の自動リロード化
+;; ----------------------------------------------------------------------
+;; http://emacs.g.hatena.ne.jp/k1LoW/20090430/1241104830
+(defvar moz-use-mozilla t)
+(defun moz-send-reload ()
+  (interactive)
+  (unless (not moz-use-mozilla)
+    (comint-send-string (inferior-moz-process)
+                        (concat moz-repl-name ".pushenv('printPrompt', 'inputMode'); "
+                                moz-repl-name ".setenv('inputMode', 'line'); "
+                                moz-repl-name ".setenv('printPrompt', false); undefined; "))
+    (comint-send-string (inferior-moz-process)
+                        (concat "content.location.reload(true);\n"
+                                moz-repl-name ".popenv('inputMode', 'printPrompt'); undefined;\n"))
+    ))
 
-;; (defun reload-moz ()
-;;   (unless (condition-case nil(run-mozilla)
-;;             (error nil))
-;;     (if (string-match "\.\\(css\\|js\\|php\\|html\\|xhtml\\|htm\\|tpl\\|thtml\\|ctp\\|po\\)$" (buffer-file-name))
-;;         (moz-send-reload))))
+(defun reload-moz ()
+  (unless (condition-case nil(run-mozilla)
+            (error nil))
+    (if (string-match "\.\\(css\\|js\\|php\\|html\\|xhtml\\|htm\\|tpl\\|thtml\\|ctp\\|po\\)$" (buffer-file-name))
+        (moz-send-reload))))
 
-;; (add-hook 'after-save-hook 'reload-moz)
+(add-hook 'after-save-hook 'reload-moz)
 
-;; (defun moz-switch-host ()
-;;   "Show the inferior mozilla buffer.  Start the process if needed."
-;;   (interactive)
-;;   (if inferior-moz-buffer
-;;       (kill-buffer inferior-moz-buffer))
-;;   (setq moz-repl-host (read-string "Host: " "localhost"))
-;;   (pop-to-buffer (process-buffer (inferior-moz-process)))
-;;   (goto-char (process-mark (inferior-moz-process))))
+(defun moz-switch-host ()
+  "Show the inferior mozilla buffer.  Start the process if needed."
+  (interactive)
+  (if inferior-moz-buffer
+      (kill-buffer inferior-moz-buffer))
+  (setq moz-repl-host (read-string "Host: " "localhost"))
+  (pop-to-buffer (process-buffer (inferior-moz-process)))
+  (goto-char (process-mark (inferior-moz-process))))
 
 
 
 ;; ----------------------------------------------------------------------
-;;                          最終更新 '09.11.19
+;;                          最終更新 '09.11.24
 ;; ----------------------------------------------------------------------

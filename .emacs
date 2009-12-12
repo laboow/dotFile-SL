@@ -892,7 +892,16 @@
   (goto-char (process-mark (inferior-moz-process))))
 
 
+;; auto-install.el
+;; ----------------------------------------------------------------------
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/mylisp"))
+(require 'auto-install)
+(setq auto-install-directory "~/.emacs.d/mylisp/")
+(auto-install-update-emacswiki-package-name t)
+(auto-install-compatibility-setup)
+
+
 
 ;; ----------------------------------------------------------------------
-;;                          最終更新 '09.11.24
+;;                          最終更新 '09.12.10
 ;; ----------------------------------------------------------------------

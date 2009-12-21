@@ -200,13 +200,19 @@
 ;; ======================================================================
 
 ;; 1行ずつスクロール
-(setq scroll-step 1)
+(setq scroll-conservatively 1)
 
 ;; マウスホイール
 (mouse-wheel-mode 1)
 
 ;; マウスでのスクロール加速を無効にする
 (setq mouse-wheel-progressive-speed nil)
+
+;; カーソルを見た目の行移動にする
+(require 'physical-line)
+(setq-default physical-line-mode t)
+;; dired-mode には適用しない
+(setq physical-line-ignoring-mode-list '(dired-mode))
 
 ;; 対応する括弧をハイライト表示
 (show-paren-mode 1)
@@ -292,9 +298,9 @@
 (setq-default indent-line-function 'indent-relative-maybe)
 (setq-default indent-tabs-mode nil)
 
-;; C-cc で範囲指定をコメントアウトする
+;; C-c: で範囲指定をコメントアウトする
 (global-set-key "\C-c:" 'comment-region)
-;; C-cu で範囲指定のコメントアウトを解除する
+;; C-c; で範囲指定のコメントアウトを解除する
 (global-set-key "\C-c;" 'uncomment-region)
 
 ;; 補完機能を使う
@@ -325,6 +331,31 @@
 (define-key minibuffer-local-completion-map [down] 'next-history-element)
 (define-key minibuffer-local-must-match-map [down] 'next-history-element)
 
+;; scratch を終了させない
+(defun my-make-scratch (&optional arg)
+  (interactive)
+  (progn
+    (set-buffer (get-buffer-create "*scratch*"))
+    (funcall initial-major-mode)
+    (erase-buffer)
+    (when (and initial-scratch-message (not inhibit-startup-message))
+      (insert initial-scratch-message))
+    (or arg (progn (setq arg 0)
+                   (switch-to-buffer "*scratch*")))
+    (cond ((= arg 0) (message "*scratch* is cleared up."))
+          ((= arg 1) (message "another *scratch* is created.")))))
+
+(defun my-buffer-name-list ()
+  (mapcar (function buffer-name) (buffer-list)))
+(add-hook 'kill-buffer-query-functions
+          (function (lambda ()
+                      (if (string= "*scratch*" (buffer-name))
+                          (progn (my-make-scratch 0) nil)
+                        t))))
+(add-hook 'after-save-hook
+          (function (lambda ()
+                      (unless (member "*scratch*" (my-buffer-name-list))
+                        (my-make-scratch 1)))))
 
 ;; ======================================================================
 ;; ファイル設定
@@ -903,5 +934,5 @@
 
 
 ;; ----------------------------------------------------------------------
-;;                          最終更新 '09.12.10
+;;                          最終更新 '09.12.22
 ;; ----------------------------------------------------------------------

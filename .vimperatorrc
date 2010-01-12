@@ -1,5 +1,5 @@
-" vimperator 2.0
-"  2009.10.21
+" vimperator 2.2
+"  2010.01.05
 
 set guioptions+=mTB
 set showtabline=1
@@ -61,24 +61,42 @@ imap <C-d> <Del>
 imap <C-h> <BS>
 
 
+" OS キーバインド
+inoremap <C-a> <C-v><C-a>
+inoremap <C-z> <C-v><C-z>
+inoremap <C-x> <C-v><C-x>
+inoremap <C-c> <C-v><C-c>
+inoremap <C-v> <C-v><C-v>
+cnoremap <C-a> <C-v><C-a>
+cnoremap <C-z> <C-v><C-z>
+cnoremap <C-x> <C-v><C-x>
+cnoremap <C-c> <C-v><C-c>
+cnoremap <C-v> <C-v><C-v>
+
+
 " _smooziee.js
 let g:smooziee_scroll_amount="200"
 
 
 " ldrize_cooperation.js
-let g:ldrc_captureMappings = "['j', 'k', 'p', 'o', '?']"
+let g:ldrc_captureMappings = "['t', 'T', 'h', 'l', 'j', 'k', 'p', 'o', '?']"
 let g:ldrc_intlligence_bind = "true"
-let g:ldrc_skip = "0.25"
+
+
+" feedSomekey_2
+autocmd LocationChange .* :fmapc
+autocmd LocationChange mail\.google\.com/mail :fmap c / j k n p o u e x s r a y # [ ] z ? gi gs gt gd ga gc
+autocmd LocationChange www\.google\.co\.jp/reader :fmap! -vkey j k n p m s t v A r S N P X O gh ga gs gt gu u / ?
+autocmd LocationChange www\.google\.com/reader :fmap! -vkey j k n p m s t v A r S N P X O gh ga gs gt gu u / ?
+
+
 " source: http://coderepos.org/share/browser/dotfiles/vimperator/ukstudio-vimperatorrc?rev=8086
 map ,l :toggleldrc<CR>
+
 
 " migemo_hint.js
 " source: http://unsigned.g.hatena.ne.jp/Trapezoid/20080616/1213624179
 set hintmatching=custom
-
-" 自動で Vimperator のキーマップを無効にする
-" Gmail用
-autocmd LocationChange mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
 
 
 " googlesuggest.js
